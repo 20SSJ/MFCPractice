@@ -57,6 +57,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	LPCSTR szMsg1 = "I love Window Programming!"; // 윈도우에 출력될 문자열
 	LPCSTR szMsg2 = "키보드가 눌러졌습니다";		  // 키보드를 눌렀을 때 출력될 문자열
 	LPCSTR szMsg3 = "키보드가 떼어졌습니다.";		  // 키보드를 떼었을 때 출력될 문자열
+	LPCSTR szMsg4 = "마우스가 눌러졌습니다.";		  // 마우스를 눌렀을 때 출력될 문자열
+	LPCSTR szMsg5 = "마우스가 이동 중입니다.";		  // 마우스가 이동 중일 때 출력될 문자열
+	LPSTR szMsg6 = new char[10];				  // 마우스 좌푯값 메시지를 출력
+
+	POINT MousePoint;
+	MousePoint.x = LOWORD(lParam);
+	MousePoint.y = HIWORD(lParam);
+
 
 	// 커널에서 들어온 메시지를 swtich 문을 이용하여 처리
 	switch (message) {
@@ -79,8 +87,26 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		DrawText(hdc, szMsg3, strlen(szMsg3), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 		ReleaseDC(hwnd, hdc);
 		break;
+	case WM_LBUTTONDOWN: // 왼쪽 마우스를 클릭한 경우
+		hdc = GetDC(hwnd);
+		GetClientRect(hwnd, &rect);
+		wsprintf(szMsg6, "X:%ld, Y:%ld", MousePoint.x, MousePoint.y);
+		TextOut(hdc, MousePoint.x, MousePoint.y, szMsg6, strlen(szMsg6));
+		DrawText(hdc, szMsg4, strlen(szMsg4), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+		ReleaseDC(hwnd, hdc);
+		break;
+	case WM_LBUTTONUP: // 왼쪽 마우스가 떼어진 경우
+		InvalidateRect(hwnd, NULL, TRUE);
+		MessageBox(hwnd, "마우스가 떼어졌습니다.", "마우스 메시지", MB_OK | MB_ICONASTERISK);
+		break;
+	case WM_MOUSEMOVE: // 마우스를 움직일 경우
+		hdc = GetDC(hwnd);
+		GetClientRect(hwnd, &rect);
+		DrawText(hdc, szMsg5, strlen(szMsg5), &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+		ReleaseDC(hwnd, hdc);
+		break;
 	case WM_LBUTTONDBLCLK: // 왼쪽 마우스를 더블 클릭한 경우
-		MessageBox(hwnd, "마우스 더블 클릭", "마우스 메시지", MB_OK | MB_ICONASTERISK);
+		MessageBox(hwnd, "마우스가 이동 중입니다.", "마우스 메시지", MB_OK | MB_ICONASTERISK);
 		break;
 	case WM_DESTROY:		// 프로그램 종료 메시지가 온 경우
 		PostQuitMessage(0);
