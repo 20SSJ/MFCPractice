@@ -35,4 +35,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CListBox m_List;
+	void OnDestory();
 };

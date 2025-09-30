@@ -11,6 +11,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+#include "CClientSocket.h"
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
@@ -96,7 +97,15 @@ BOOL CChatServerDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 큰 아이콘을 설정합니다.
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
-	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	if (m_ListenSocket.Create(21000, SOCK_STREAM)) {
+		if (!m_ListenSocket.Listen()) {
+			AfxMessageBox(_T("eRROR: Listen() return FALSE"));
+		}
+	}
+	else
+	{
+		AfxMessageBox(_T("ERRor: Failed to create server socket!"));
+	}
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -150,3 +159,26 @@ HCURSOR CChatServerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+void CChatServerDlg::OnDestory()
+{
+	// TODO: 여기에 구현 코드 추가.
+	CDialog::OnDestroy();
+
+	POSITION pos;
+	pos = m_ListenSocket.m_ptrClientSocketList.GetHeadPosition();
+	CClientSocket* pClient = NULL;
+
+	while (pos != NULL) {
+		pClient = (CClientSocket*)
+			m_ListenSocket.m_ptrClientSocketList.GetNext(pos);
+		if (pClient != NULL) {
+			pClient->ShutDown();
+			pClient->Close();
+
+			delete pClient;
+		}
+	}
+	m_ListenSocket.ShutDown();
+	m_ListenSocket.Close();
+}

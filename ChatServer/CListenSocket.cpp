@@ -30,13 +30,15 @@ void CListenSocket::CloseClientSocket(CSocket* pClient)
 {
 	POSITION pos;
 	pos = m_ptrClientSocketList.Find(pClient);
-	CClientSocket* pClient = NULL;
 
 	// TODO: 여기에 구현 코드 추가.
-	if (pClient != NULL) {
-		pClient->ShutDown();
-		pClient->Close();
+	if (pos != NULL) {
+		if (pClient != NULL) {
+			pClient->ShutDown();
+			pClient->Close();
+		}
 	}
+	
 	m_ptrClientSocketList.RemoveAt(pos);
 	delete pClient;
 }
@@ -46,5 +48,12 @@ void CListenSocket::SendChatDataAll(TCHAR* pszMessage)
 	// TODO: 여기에 구현 코드 추가.
 	POSITION pos;
 	pos = m_ptrClientSocketList.GetHeadPosition();
-	CCLientSocket* pClient = NULL;
+	CClientSocket* pClient = NULL;
+
+	while (pos != NULL) {
+		pClient = (CClientSocket*)m_ptrClientSocketList.GetNext(pos);
+		if (pClient != NULL) {
+			pClient->Send(pszMessage, lstrlen(pszMessage) * 2);
+		}
+	}
 }

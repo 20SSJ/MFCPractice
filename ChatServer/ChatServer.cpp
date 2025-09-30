@@ -1,7 +1,8 @@
-﻿
-// ChatServer.cpp: 애플리케이션에 대한 클래스 동작을 정의합니다.
+﻿// ChatServer.cpp: 애플리케이션에 대한 클래스 동작을 정의합니다.
 //
 
+#pragma comment(lib, "Ws2_32.lib")
+#include <WinSock2.h>
 #include "pch.h"
 #include "framework.h"
 #include "ChatServer.h"
@@ -109,5 +110,11 @@ BOOL CChatServerApp::InitInstance()
 	// 대화 상자가 닫혔으므로 응용 프로그램의 메시지 펌프를 시작하지 않고 응용 프로그램을 끝낼 수 있도록 FALSE를
 	// 반환합니다.
 	return FALSE;
+}
+
+int CChatServerApp::ExitInstance()
+{
+	WSACleanup();
+	return CWinApp::ExitInstance();
 }
 
