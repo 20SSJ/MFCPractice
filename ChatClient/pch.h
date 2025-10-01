@@ -10,4 +10,18 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
+enum DATA_TYPE{ _NICK, _TEXT, _IMAGE_NAME, _IMAGE, _FILE, _FILE_NAME, _UNKNWON};
+
+const int MAX_BUF = 4096;
+const unsigned int UM_RECV_DATA = WM_USER + 1;
+const unsigned int UM_DISCONNECT_SERVER = WM_USER + 2;
+
+// 데이터 패킷 구조체 (데이터를 보낼 때 이 형태로 묶어서 보냄)
+#pragma pack(push, 1)
+struct PacketHeader
+{
+    DATA_TYPE type; // 데이터 종류
+    size_t dataSize; // 데이터 실제 크기
+};
+#pragma pack(pop)
 #endif //PCH_H

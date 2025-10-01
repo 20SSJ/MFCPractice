@@ -32,5 +32,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CListBox m_List;
-	CEdit m_StrMessage;
+	CString m_strMessage;
+	afx_msg void OnLbnSelchangeList();
+	afx_msg void OnEnChangeEditMessage();
+	afx_msg void OnBnClickedButtonSend();
 };

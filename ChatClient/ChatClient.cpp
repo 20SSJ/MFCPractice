@@ -1,5 +1,4 @@
-﻿
-// ChatClient.cpp: 애플리케이션에 대한 클래스 동작을 정의합니다.
+﻿// ChatClient.cpp: 애플리케이션에 대한 클래스 동작을 정의합니다.
 //
 
 #include "pch.h"
@@ -13,14 +12,12 @@
 
 
 // CChatClientApp
-
 BEGIN_MESSAGE_MAP(CChatClientApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
 // CChatClientApp 생성
-
 CChatClientApp::CChatClientApp()
 {
 	// 다시 시작 관리자 지원
@@ -32,12 +29,10 @@ CChatClientApp::CChatClientApp()
 
 
 // 유일한 CChatClientApp 개체입니다.
-
 CChatClientApp theApp;
 
 
 // CChatClientApp 초기화
-
 BOOL CChatClientApp::InitInstance()
 {
 	// Windows XP에서는 InitCommonControlsEx()를 필요로 합니다.
@@ -110,4 +105,3 @@ BOOL CChatClientApp::InitInstance()
 	// 반환합니다.
 	return FALSE;
 }
-
