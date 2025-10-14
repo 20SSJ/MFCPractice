@@ -60,6 +60,7 @@
     <None Include="res\Network.rc2">
       <Filter>리소스 파일</Filter>
     </None>
+    <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Network.ico">
